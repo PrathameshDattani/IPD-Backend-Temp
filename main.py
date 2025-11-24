@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from pymongo import MongoClient
 from bson import ObjectId
@@ -8,6 +9,15 @@ import os
 load_dotenv()
 
 app = FastAPI()
+
+# Configure CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://temperature-dashboard-eosin.vercel.app"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Connect to MongoDB
 client = MongoClient(os.getenv("MONGO_URI"))
